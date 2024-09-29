@@ -1,7 +1,9 @@
+
+
 import  { useReducer, useEffect } from "react";
-import ToDoItem from "./ToDoItem.jsx";
-import NewToDoForm from "./NewToDoForm.jsx";
-import { DataFromApi } from "./DataFromApi.js";
+import ToDoItem from "./ToDoItem";
+import NewToDoForm from "./NewToDoForm";
+import { DataFromApi } from "./DataFromApi";
 
 const ToDoList = () => {
   const [todos, dispatch] = useReducer(DataFromApi, []);
@@ -16,7 +18,10 @@ const ToDoList = () => {
   }, []);
 
   const addTodo = (title) => {
-    dispatch({ type: "ADD_TODO", payload: title });
+    dispatch({
+      type: "ADD_TODO",
+      payload: { id: Date.now(), title, completed: false, isEditing: false }, // Ensure unique ID
+    });
   };
 
   return (
@@ -33,6 +38,7 @@ const ToDoList = () => {
 };
 
 export default ToDoList;
+
 
 
 

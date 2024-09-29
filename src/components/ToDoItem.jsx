@@ -1,12 +1,11 @@
 
 
-import   { useState } from "react";
+import  { useState } from "react";
 
 const ToDoItem = ({ todo, dispatch }) => {
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(todo.isEditing);
   const [taskTitle, setTaskTitle] = useState(todo.title);
 
-  // Handle save action
   const handleSave = () => {
     if (taskTitle.trim()) {
       dispatch({ type: "EDIT_TODO", payload: { id: todo.id, title: taskTitle } });
@@ -14,24 +13,20 @@ const ToDoItem = ({ todo, dispatch }) => {
     }
   };
 
-  // Handle delete action
   const handleDelete = () => {
     dispatch({ type: "DELETE_TODO", payload: { id: todo.id } });
   };
 
   return (
     <li className="todo-item">
-      
       <input
         type="checkbox"
         checked={todo.completed}
         onChange={() => dispatch({
           type: "TOGGLE_TODO",
-          payload: { id: todo.id, completed: !todo.completed }
+          payload: { id: todo.id, completed: !todo.completed },
         })}
       />
-
-      
       {isEditing ? (
         <input
           type="text"
@@ -44,15 +39,13 @@ const ToDoItem = ({ todo, dispatch }) => {
         </span>
       )}
 
-      
       {isEditing ? (
         <button onClick={handleSave}>Save</button>
       ) : (
         <button onClick={() => setIsEditing(true)}>Edit</button>
       )}
 
-       
-      <button onClick={handleDelete}>Delete</button>
+      <button onClick={handleDelete} disabled={!todo.completed}>Delete</button>
     </li>
   );
 };
